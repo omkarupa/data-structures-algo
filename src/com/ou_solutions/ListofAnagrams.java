@@ -2,9 +2,9 @@ package com.ou_solutions;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListofAnagrams {
 
@@ -12,32 +12,26 @@ public class ListofAnagrams {
 
 		String[] s = { "eat", "tea", "tan", "ate", "nat", "bat" };
 
-		System.out.println(groupAnagrams(s));
-	}
-
-	private static Collection<List<String>> groupAnagrams(String[] s) {
-
-		HashMap<String, List<String>> map = new HashMap();
-
-		for (int i = 0; i < s.length; i++) {
-			char[] c = s[i].toCharArray();
+		Map<String,List<String>> map = new HashMap();
+		
+		for(String str : s)
+		{
+			char [] c = str.toCharArray();
 			Arrays.sort(c);
-
 			String s1 = new String(c);
-
-			if (map.containsKey(s1)) {
-				List<String> list = map.get(s1);
-				list.add(s[i]);
-				map.put(s1, list);
-			} else {
-				List<String> list = new ArrayList<>();
-				list.add(s[i]);
-				map.put(s1, list);
-			}
-
+			
+			map.computeIfAbsent(s1, k -> new ArrayList()).add(str);
+			
 		}
-		return map.values();
-
+		
+		for(Map.Entry<String, List<String>> entry : map.entrySet() )
+		{
+			String key = entry.getKey();
+			System.out.println(entry.getValue());
+		}
+		
 	}
+
+	
 
 }

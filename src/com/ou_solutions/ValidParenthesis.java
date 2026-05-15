@@ -6,7 +6,7 @@ public class ValidParenthesis {
 
 	public static void main(String[] args) {
 		
-		String p = "()[]";
+		String p = ")([]{}";
 		
 		System.out.println(isValidParenthesis(p));
 		
@@ -14,32 +14,33 @@ public class ValidParenthesis {
 	
 	public static boolean isValidParenthesis(String p)
 	{
+		Stack<Character> stack = new Stack<Character>();
 		
-		Stack<Character> stack = new Stack();
-		
-		for(int i = 0;i< p.length();i++)
+		for(int i = 0;i<p.length();i++)
 		{
 			
-			if(stack.isEmpty())
-				return false;
+			char c = p.charAt(i);
 			
-			if(p.charAt(i) == '(' || p.charAt(i) == '{' || p.charAt(i) == '[' )
+			if(c == '(' || c== '[' || c == '{')
 			{
-				stack.push(p.charAt(i));
+				stack.push(c);
+			}
+			else {
+				if(stack.isEmpty()) return false;
+				
+				char top = stack.pop();
+				
+				if((c == ']' && top != '[') || (c == ')' && top != '(') || c == '}' && top != '{')
+				{
+					return false;
+				}
+				
 			}
 			
-			if(p.charAt(i) == ')' && stack.pop() == '(' || p.charAt(i) == '}'  && stack.pop() == '{' || p.charAt(i) == ']' && stack.pop() == '[')
-			{
-				return true;
-			}
 			
 		}
 		
-		
-		
-		
-		return false;
-		
+		return stack.isEmpty();
 	}
 
 }

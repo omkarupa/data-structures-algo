@@ -1,42 +1,44 @@
 package com.ou_solutions;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
 
 public class LongestSubstring {
 
 	public static void main(String[] args) {
 		
-		String s = "abcabcbb";
+		String s = "abcankvsbbcbb";
 		
-		System.out.println(findLongestSubString(s));
-
-	}
-	
-	public static int findLongestSubString(String s)
-	{
-		
-		Set<Character> seen = new HashSet<Character>();
 		int left = 0;
+		int startIndex = 0;
+		int maxLength = 0;
 		
-		for(int i = 0;i<s.length();i++)
+		HashMap<Character,Integer> map = new HashMap();
+		
+		for(int right = 0; right< s.length();right ++ )
 		{
 			
-			if(seen.contains(s.charAt(i)))
+			char c = s.charAt(right);
+			
+			if(map.containsKey(c))
 			{
-				seen.remove(s.charAt(left));
-				left--;
+				left = Math.max(left, map.get(c) + 1 );
 			}
 			
-			seen.add(s.charAt(i));
-			left++;
-		
+			map.put(c, right);
+			
+			if(right -  left + 1 > maxLength)
+			{
+				maxLength = right - left + 1;
+				startIndex = left;
+			}
+			
 			
 		}
 		
+		System.out.println(s.substring(startIndex,startIndex + maxLength));
 		
-		return left;
-		
-	}
 
+	}
+	
+	
 }
